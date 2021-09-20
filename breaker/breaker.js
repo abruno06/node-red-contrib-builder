@@ -1,6 +1,7 @@
 module.exports = function (RED) {
     "use strict";
-    const clone = require("clone");
+    //const clone = require("clone");
+    const clonedeep = require("lodash.clonedeep")
 
 
     function BreakerNode(n) {
@@ -11,7 +12,8 @@ module.exports = function (RED) {
 
         this.on('input', (msg, send, done) => {
 
-            let m = clone(msg);
+           // let m = clone(msg);
+           let m = clonedeep(msg);
             const req = msg.req;
             const res = msg.res;
             delete msg.req;
