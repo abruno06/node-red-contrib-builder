@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-breaker",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "This is a NodeRed Node that is able to isolate left and right flow from any side effect",
   "dependencies": {
     "lodash.clonedeep":"latest"

@@ -19,7 +19,7 @@ module.exports = function (RED) {
             delete msg.req;
             delete msg.res;
             if (msg.payload) {
-                m.payload = JSON.parse(JSON.stringify(msg.payload))
+              m.payload = JSON.parse(JSON.stringify(msg.payload))
             }
             if (req) {
                 m.req = req;
