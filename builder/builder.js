@@ -9,7 +9,7 @@ module.exports = function (RED) {
         node.data = n.data;
 
         node.on("input", function (msg, send, done) {
-            
+
             let data = node.data || "{}";
             //  console.log("Node Data:"+JSON.stringify(data))
             //  console.log(node);
@@ -21,6 +21,7 @@ module.exports = function (RED) {
                     }
                 } else {
                     msg = JSON.parse(JSON.stringify(data)); //we never know how people can inject bad stuff
+                    delete msg["_msgid"]; // delete in case it exist
                 }
                 send(msg);
 
