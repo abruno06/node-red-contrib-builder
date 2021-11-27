@@ -9,7 +9,7 @@ module.exports = function (RED) {
         node.data = n.data;
 
         node.on("input", function (msg, send, done) {
-
+            
             let data = node.data || "{}";
             //  console.log("Node Data:"+JSON.stringify(data))
             //  console.log(node);
