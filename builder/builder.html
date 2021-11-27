@@ -1,0 +1,141 @@
+<script type="text/html" data-template-name="builder">
+  <div class="form-row">
+    <label for="node-input-name">
+    <i class="fa fa-tag"></i> <span data-i18n="builder.labels.name"></span>
+    </label>
+    <input
+      type="text"
+      id="node-input-name"
+      data-i18n="[placeholder]builder.labels.name"
+    />
+  </div>
+  <div class="form-row">
+    <label for="node-input-data">
+    <i class="fa fa-tag"></i> <span data-i18n="builder.labels.data"></span></label>
+    <input type="text" id="node-input-data" />
+  </div>
+</script>
+
+<script type="text/javascript">
+  /**Simplify version of original inject one*/
+  function doInject(node, customMsg) {
+    var label = node._def.label.call(node, undefined);
+    if (label.length > 30) {
+      label = label.substring(0, 50) + "...";
+    }
+    label = label
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    $.ajax({
+      url: "inject/" + node.id,
+      type: "GET",
+      success: function (resp) {
+        RED.notify(node._("inject.success", { label: label }), {
+          type: "success",
+          id: "inject",
+          timeout: 2000,
+        });
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status == 404) {
+          RED.notify(
+            node._("common.notification.error", {
+              message: node._("common.notification.errors.not-deployed"),
+            }),
+            "error"
+          );
+        } else if (jqXHR.status == 500) {
+          RED.notify(
+            node._("common.notification.error", {
+              message: node._("inject.errors.failed"),
+            }),
+            "error"
+          );
+        } else if (jqXHR.status == 0) {
+          RED.notify(
+            node._("common.notification.error", {
+              message: node._("common.notification.errors.no-response"),
+            }),
+            "error"
+          );
+        } else {
+          RED.notify(
+            node._("common.notification.error", {
+              message: node._("common.notification.errors.unexpected", {
+                status: jqXHR.status,
+                message: textStatus,
+              }),
+            }),
+            "error"
+          );
+        }
+      },
+    });
+  }
+  RED.nodes.registerType("builder", {
+    color: "#3FADB5",
+    category: "function",
+    defaults: {
+      name: {
+        value: "",
+      },
+      data: {
+        value: "{}",
+      },
+    },
+    inputs: 0,
+    outputs: 1,
+    icon: "inject.svg",
+    label: function () {
+      return this.name || "builder";
+    },
+    labelStyle: function () {
+      return this.name ? "node_label_italic" : "";
+    },
+    oneditprepare: function () {
+      var that = this;
+      if (!this.data) {
+        this.data = "{}";
+        $("#node-input-data").val("{}");
+      }
+      $("#node-input-data").typedInput({
+        type: "json",
+        types: ["json"],
+        value: this.data
+      });
+    },
+    oneditsave: function () {
+      this.data = $("#node-input-data").typedInput('value');
+    },
+    button: {
+      enabled: function () {
+        return !this.changed;
+      },
+      onclick: function () {
+        if (this.changed) {
+          return RED.notify(
+            RED._("notification.warning", {
+              message: RED._("notification.warnings.undeployedChanges"),
+            }),
+            "warning"
+          );
+        }
+        doInject(this);
+      },
+    },
+  });
+</script>
+
+<script type="text/x-red" data-help-name="builder">
+      <p>This node is injecting the data as a new complex message for nodered
+   </p>
+  <h3>Outputs</h3>
+  <ol class="node-ports">
+      <li>Standard output
+          <dl class="message-properties">
+             The output will be the template
+          </dl>
+      </li>
+  </ol>
+</script>

@@ -1,7 +1,7 @@
 {
-  "name": "node-red-contrib-breaker",
-  "version": "0.0.6",
-  "description": "This is a NodeRed Node that is able to isolate left and right flow from any side effect",
+  "name": "node-red-contrib-builder",
+  "version": "0.0.2",
+  "description": "This is a NodeRed Node that is able to inject a complete msg using json input",
   "dependencies": {
     "lodash.clonedeep":"latest"
   },
@@ -13,12 +13,12 @@
   "license": "Apache 2.0",
   "repository": {
     "type" : "git",
-    "url" : "https://github.com/abruno06/node-red-contrib-breaker.git"
+    "url" : "https://github.com/abruno06/node-red-contrib-builder.git"
   },
   "node-red":{
-    "version": ">=1.1.0",
+    "version": ">=2.0.0",
     "nodes":{
-      "translate":"breaker/breaker.js"
+      "translate":"builder/builder.js"
     }
   } 
 }

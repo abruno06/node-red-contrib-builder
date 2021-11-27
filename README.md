@@ -1,16 +1,10 @@
-# node-red-contrib-breaker
+# node-red-contrib-builder
 
 
-This node offer some kind of isolation between input and output to make sure change on msg.payload did not get reflected on attributes that could have been copy to payload. 
-This is from a propose idea of @thechane .  
-Switch to lodash.clonedeep
+This node any easy way to inject a full and complex JSON msg to nodered flow
 
 
-This node have the following impact in msg.payload, due to Side effect of JSON.stringify and parsing:
-- undefined value will be remove
-- NaN and Infinity will be nullify
-- Date will become string
-- Function will be lost
+This node have so little code injection to prevent malicious usage injection
+the data will be serialise and deserialise using JSON parsing 
+msg._msgid will be regenerated
 
-
-So make sure msg.payload only contain values.

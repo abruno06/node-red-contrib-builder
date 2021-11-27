@@ -1,0 +1,8 @@
+{
+    "builder": {
+        "labels": {
+            "name": "Name",
+            "data":"Message"
+        }
+    }
+}
