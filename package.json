@@ -16,7 +16,7 @@
     "url" : "https://github.com/abruno06/node-red-contrib-builder.git"
   },
   "node-red":{
-    "version": ">=2.0.0",
+    "version": ">=1.1.0",
     "nodes":{
       "translate":"builder/builder.js"
     }
