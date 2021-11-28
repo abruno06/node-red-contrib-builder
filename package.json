@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-builder",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "This is a NodeRed Node that is able to inject a complete msg using json input",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,5 +17,5 @@
     "nodes":{
       "translate":"builder/builder.js"
     }
-  } 
+  }  
 }
