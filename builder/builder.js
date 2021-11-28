@@ -1,18 +1,13 @@
 module.exports = function (RED) {
     "use strict";
-    //const clone = require("clone");
-
-    function BuilderNode(n) {
+     function BuilderNode(n) {
         RED.nodes.createNode(this, n);
         var node = this;
 
         node.data = n.data;
 
         node.on("input", function (msg, send, done) {
-
             let data = node.data || "{}";
-            //  console.log("Node Data:"+JSON.stringify(data))
-            //  console.log(node);
             try {
                 data = JSON.parse(data)
                 if (Array.isArray(data)) {
@@ -24,15 +19,13 @@ module.exports = function (RED) {
                     delete msg["_msgid"]; // delete in case it exist
                 }
                 send(msg);
-
             } catch (e) {
                 send(e);
-
             }
             done()
-
         })
     }
+    //most like the inject one except get rather than post
     RED.nodes.registerType("builder", BuilderNode);
     RED.httpAdmin.get("/inject/:id", RED.auth.needsPermission("inject.write"), function (req, res) {
         var node = RED.nodes.getNode(req.params.id);
