@@ -11,9 +11,7 @@ module.exports = function (RED) {
             try {
                 data = JSON.parse(data)
                 if (Array.isArray(data)) {
-                    msg = {
-                        "payload": data
-                    }
+                    msg = {"payload": data}
                 } else {
                     msg = JSON.parse(JSON.stringify(data)); //we never know how people can inject bad stuff
                     delete msg["_msgid"]; // delete in case it exist
