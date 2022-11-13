@@ -2,21 +2,22 @@ module.exports = function (RED) {
     "use strict";
      function BuilderNode(n) {
         RED.nodes.createNode(this, n);
-        var node = this;
+        let node = this;
 
         node.data = n.data;
 
         node.on("input", function (msg, send, done) {
             let data = node.data || "{}";
+            let rmsg ={}
             try {
                 data = JSON.parse(data)
                 if (Array.isArray(data)) {
-                    msg = {"payload": data}
+                    rmsg = {"payload": data}
                 } else {
-                    msg = JSON.parse(JSON.stringify(data)); //we never know how people can inject bad stuff
-                    delete msg["_msgid"]; // delete in case it exist
+                    rmsg = JSON.parse(JSON.stringify(data)); //we never know how people can inject bad stuff
+                    delete rmsg["_msgid"]; // delete in case it exist
                 }
-                send(msg);
+                send(rmsg);
             } catch (e) {
                 send(e);
             }
@@ -26,7 +27,7 @@ module.exports = function (RED) {
     //most like the inject one except get rather than post
     RED.nodes.registerType("builder", BuilderNode);
     RED.httpAdmin.get("/inject/:id", RED.auth.needsPermission("inject.write"), function (req, res) {
-        var node = RED.nodes.getNode(req.params.id);
+        let node = RED.nodes.getNode(req.params.id);
         if (node != null) {
             try {
                 node.receive();
